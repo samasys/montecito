@@ -43,6 +43,22 @@ public class DistributorRest {
         info.setItem("Self Clinching Nuts - DXA 234");
         list.add( info );
 
+        info = new ItemAvailabilityInfo();
+        info.set_id(UUID.randomUUID().toString());
+        info.setAvailable("62%");
+        info.setStatus("med");
+        info.setLocation("BLR");
+        info.setItem("Self Clinching Nuts - DBA 945");
+        list.add( info );
+
+        info = new ItemAvailabilityInfo();
+        info.set_id(UUID.randomUUID().toString());
+        info.setAvailable("45%");
+        info.setStatus("med");
+        info.setLocation("BLR");
+        info.setItem("Self Clinching Nuts - SCA 567");
+        list.add( info );
+
         return Response.ok().entity( list ).build();
     }
 
@@ -66,6 +82,18 @@ public class DistributorRest {
         info.set_id(UUID.randomUUID().toString());
         info.setItem("Self Clinching Nuts - DXA 234");
         info.setUsage("75");
+        list.add ( info );
+
+        info = new UsageInfo();
+        info.set_id(UUID.randomUUID().toString());
+        info.setItem("Self Clinching Nuts - DBA 945");
+        info.setUsage("65");
+        list.add ( info );
+
+        info = new UsageInfo();
+        info.set_id(UUID.randomUUID().toString());
+        info.setItem("Self Clinching Nuts - SCA 567");
+        info.setUsage("95");
         list.add ( info );
 
         return Response.ok().entity(list).build();
