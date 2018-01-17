@@ -29,4 +29,8 @@ public class UsageInfo {
     public void setUsage(String usage) {
         this.usage = usage;
     }
+
+    public String toJson(){
+        return "{\"_id\":\""+_id+"\",\"item\":\""+item+"\",\"usage\":\""+usage+"\"}";
+    }
 }
