@@ -1,20 +1,75 @@
 package com.samayu.montecito;
 
+import com.samayu.montecito.businessobjects.*;
 import com.samayu.montecito.dto.ItemAvailabilityInfo;
 import com.samayu.montecito.dto.UsageInfo;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.print.attribute.standard.Media;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 @Path("/api")
 public class DistributorRest {
+
+    @GET
+    @Path("/itembins/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getItemBinDTO(){
+
+
+        ItemBinDTO itemBinDTO = new ItemBinDTO();
+        itemBinDTO.set_id(UUID.randomUUID().toString());
+        itemBinDTO.setCapacity("17");
+        itemBinDTO.setUom("weight");
+
+        BinDTO binDTO = new BinDTO();
+        binDTO.set_id(UUID.randomUUID().toString());
+        binDTO.setBrand("Aristo");
+        binDTO.setCapacity("17");
+        binDTO.setName("FPO-35");
+
+        itemBinDTO.setCrateBin( binDTO );
+
+        ItemDTO itemDTO = new ItemDTO();
+        itemDTO.set_id(UUID.randomUUID().toString());
+        itemDTO.setCategory(UUID.randomUUID().toString());
+        itemDTO.setUom("GM");
+        itemDTO.setMaterial("ms");
+
+        itemBinDTO.setItem( itemDTO );
+
+        DeviceDTO device = new DeviceDTO();
+        device.set_id(UUID.randomUUID().toString());
+        device.setLocation("BLR-ELCITA-BLKA-FLR3-RM10-RK3-SF1");
+        device.setName("cBin-SA-1");
+        device.setSlno("SA20W0000001");
+
+        itemBinDTO.setCurrDevice(device);
+
+        ThresholdDTO thresholdDTO = new ThresholdDTO();
+        thresholdDTO.setMax("10");
+        thresholdDTO.setMin("2");
+        thresholdDTO.setNormal("6");
+        itemBinDTO.setThreshold( thresholdDTO );
+
+        ReadingDTO readingDTO = new ReadingDTO();
+        readingDTO.set_id(UUID.randomUUID().toString());
+
+        itemBinDTO.setLastReading( readingDTO );
+
+        ReadingValueDTO readingValueDTO = new ReadingValueDTO();
+        readingValueDTO.setWeight("3.5");
+        readingDTO.setReading(readingValueDTO);
+
+        List<ItemBinDTO> list = new LinkedList<ItemBinDTO>();
+        list.add(itemBinDTO);
+        return Response.ok().entity(list).build();
+    }
 
     @GET
     @Path("/tasks/user/")
@@ -94,6 +149,18 @@ public class DistributorRest {
         info.set_id(UUID.randomUUID().toString());
         info.setItem("Self Clinching Nuts - SCA 567");
         info.setUsage("95");
+        list.add ( info );
+
+        info = new UsageInfo();
+        info.set_id(UUID.randomUUID().toString());
+        info.setItem("Screw Driver - SCA 147");
+        info.setUsage("57");
+        list.add ( info );
+
+        info = new UsageInfo();
+        info.set_id(UUID.randomUUID().toString());
+        info.setItem("Screw Driver - SGA 163");
+        info.setUsage("92");
         list.add ( info );
 
         return Response.ok().entity(list).build();

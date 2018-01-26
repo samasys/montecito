@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Client</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="ng-stomp.standalone.min.js"></script>
+    <script type="text/javascript">
+
+  var app = angular.module('kswaughsLiveScore', ['ngStomp']);
+
+  app.controller('LiveController', function ($stomp, $scope) {
+
+      $scope.myres = [];
+
+      var webSock = new WebSocket("ws://ec2-52-91-5-22.compute-1.amazonaws.com:8080/montecito/event");
+
+      webSock.onmessage = function(evt){
+      alert( evt.data );
+      $scope.myres = JSON.parse(evt.data);
+      };
+
+    webSock.onerror = function(evt) {
+    alert("Error "+evt.data);
+    };
+webSock.onopen = function(evt) {
+ alert( "Opened "+evt.data );
+ };
+
+
+  });
+
+ </script>
+    <style>
+ .liveScore{
+    color : blue;
+ }
+
+li{
+ list-style: none;
+ padding:0px 0px 10px 0px;
+}
+</style>
+</head>
+<body >
+<div class="liveScore" ng-app="kswaughsLiveScore" ng-controller="LiveController">
+    <p>Cricket - Live Score</p>
+    <ul>
+        <li ng-repeat="x in myres">{{$index+1}} - {{x.item}} - <b>{{x.usage}}</b> </li>
+    </ul>
+</div>
+</body>
+</html>

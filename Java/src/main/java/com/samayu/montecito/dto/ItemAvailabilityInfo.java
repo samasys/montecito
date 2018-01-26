@@ -1,6 +1,6 @@
 package com.samayu.montecito.dto;
 
-public class ItemAvailabilityInfo {
+public class ItemAvailabilityInfo implements Jsonable{
     private String _id;
     private String item;
     private String location;
@@ -45,5 +45,39 @@ public class ItemAvailabilityInfo {
 
     public void setAvailable(String available) {
         this.available = available;
+    }
+
+    public String toJson(){
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("{");
+        builder.append("\"_id\":");
+        builder.append("\"");
+        builder.append(_id);
+        builder.append("\",");
+
+        builder.append("\"item\":");
+        builder.append("\"");
+        builder.append(item);
+        builder.append("\",");
+
+        builder.append("\"location\":");
+        builder.append("\"");
+        builder.append(location);
+        builder.append("\",");
+
+        builder.append("\"status\":");
+        builder.append("\"");
+        builder.append(status);
+        builder.append("\",");
+
+
+        builder.append("\"available\":");
+        builder.append("\"");
+        builder.append(available);
+        builder.append("\"}");
+
+
+        return builder.toString();
     }
 }

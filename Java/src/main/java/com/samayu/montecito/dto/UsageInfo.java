@@ -1,6 +1,6 @@
 package com.samayu.montecito.dto;
 
-public class UsageInfo {
+public class UsageInfo implements Jsonable {
 
     private String _id;
     private String item;

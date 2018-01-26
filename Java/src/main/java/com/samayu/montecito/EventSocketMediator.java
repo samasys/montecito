@@ -1,5 +1,8 @@
 package com.samayu.montecito;
 
+import com.samayu.montecito.dto.ItemAvailabilityInfo;
+import com.samayu.montecito.dto.Jsonable;
+import com.samayu.montecito.dto.MontecitoMessage;
 import com.samayu.montecito.dto.UsageInfo;
 import org.springframework.stereotype.Component;
 
@@ -40,30 +43,28 @@ public class EventSocketMediator {
     }
 
 
-    public void publish(List<UsageInfo> message) {
+    public void publish(MontecitoMessage message) {
 
-            System.out.println("Total Clients "+peers.size());
-            StringBuilder jsonString = new StringBuilder( "[");
-            for(UsageInfo u : message ){
-                jsonString.append(u.toJson()).append(",");
+        System.out.println("Total Clients "+peers.size());
+
+        String jsonMessage  = message.toJson();
+
+        System.out.println( jsonMessage );
+        for (Session s : peers) {
+            try {
+
+
+
+                System.out.println( "Session open = "+s.isOpen());
+                System.out.println("Sending to "+s);
+                s.getBasicRemote().sendText(jsonMessage);
+                System.out.println("send message to peer ");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-            jsonString.deleteCharAt(jsonString.length()-1);
-            jsonString.append("]");
-            for (Session s : peers) {
-                try {
-
-
-
-                    System.out.println( "Session open = "+s.isOpen());
-                    System.out.println("Sending to "+s);
-                    s.getBasicRemote().sendText(jsonString.toString());
-                    System.out.println("send message to peer ");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
+        }
     }
+
 
 }
